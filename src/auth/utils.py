@@ -2,14 +2,11 @@ from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 import jwt
-from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 
-from config import settings
+from src.config import settings
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 def verify_password(plain_password, hashed_password):
@@ -31,3 +28,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
         to_encode, settings.secret_key, algorithm=settings.algorithm
     )
     return encoded_jwt
+
+
+def decode_token(token: str):
+    return jwt.decode(token, settings.secret_key, algorithms=[settings.algorithm])
