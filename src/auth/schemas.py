@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class TokenSchema(BaseModel):
+class Token(BaseModel):
     access_token: str
     token_type: str
 
@@ -10,9 +10,11 @@ class TokenData(BaseModel):
     username: str | None = None
 
 
-class UserSchema(BaseModel):
+class User(BaseModel):
     username: str
-    password: str
     email: str | None = None
     full_name: str | None = None
-    disabled: bool | None = None
+
+
+class UserCreate(User):
+    password: str
